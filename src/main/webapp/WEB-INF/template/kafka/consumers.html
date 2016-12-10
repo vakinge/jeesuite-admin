@@ -35,8 +35,8 @@
 					<td width="*" title="${partition.owner!}">
 					<#if partition.owner??><#if partition.owner?length gt 50>${partition.owner?substring(0,50)}...<#else>${partition.owner!}</#if></#if>
 					</td>
-					<td width="150">${partition.createTime?string("yyyy/MM/dd HH:mm")}</td>
-					<td width="100">${partition.formatLastTime}</td>
+					<td width="150"><#if partition.createTime??>${partition.createTime?string("yyyy/MM/dd HH:mm")}</#if></td>
+					<td width="100">${partition.formatLastTime!}</td>
 				</tr>
 				</#list>
 			</table>
@@ -46,5 +46,10 @@
 	</div>
 	</#list>
 </div>
+<script type="text/javascript">
+setTimeout(function(){
+	window.location.reload();
+},5000); 
+</script>
 <!-- group list -->
 <#include "../public/footer.html"/>

@@ -4,9 +4,12 @@
 package com.jeesuite.monitor.web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jeesuite.kafka.monitor.KafkaMonitor;
 import com.jeesuite.kafka.monitor.model.ConsumerGroupInfo;
+import com.jeesuite.kafka.monitor.model.ProducerInfo;
+import com.jeesuite.kafka.monitor.model.ProducerStat;
 import com.jeesuite.monitor.component.KafkaMonitorContext;
 
 /**
@@ -38,6 +41,12 @@ public class KafkaController extends BaseController {
 	}
 	
 	public void producers() {
+		KafkaMonitor monitor = KafkaMonitorContext.get(getEnv());
+		if(monitor == null){
+			return ;
+		}
+		List<ProducerInfo> producerStats = monitor.getProducerStats();
+		setAttr("producerStats", producerStats);
 		render("producers.html");
 	}
 

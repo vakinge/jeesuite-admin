@@ -6,7 +6,6 @@ package com.jeesuite.monitor.web;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +37,12 @@ public class EnvConfigKit {
 			File file = new File(Thread.currentThread().getContextClassLoader().getResource(configFile).getPath());
 			Properties p = new Properties();
 			
-			Object envs = p.get("env.options");
+			String envs = p.getProperty("env.options");
 			if(envs != null){
-				ENVS.addAll(Arrays.asList(envs.toString().split(",")));
+				String[] strings = envs.split(",");
+				for (String string : strings) {
+					ENVS.add(string);
+				}
 			}else{
 				EnvType[] envTypes = EnvType.values();
 				for (EnvType envType : envTypes) {

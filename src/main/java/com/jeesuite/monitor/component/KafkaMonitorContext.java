@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.jeesuite.kafka.monitor.KafkaMonitor;
 import com.jeesuite.monitor.web.EnvConfigKit;
 import com.jfinal.kit.PropKit;
@@ -31,8 +33,12 @@ public class KafkaMonitorContext {
 		List<String> envs = EnvConfigKit.ENVS;
 		int latThreshold = PropKit.getInt("topic.lat.threshold", 1000);
 		for (String env : envs) {
+			if(StringUtils.isBlank(env))continue;
 			String kafkaServers = EnvConfigKit.get(env, EnvConfigKit.KAFKA_SERVER_CONFIG);
 			String zkServers = EnvConfigKit.get(env, EnvConfigKit.ZK_SERVER_CONFIG);
+			if(StringUtils.isBlank(kafkaServers) || StringUtils.isBlank(zkServers)){
+				continue;
+			}
 			kafkaMonitors.put(env, new KafkaMonitor(zkServers, kafkaServers, latThreshold));
 		}
     }

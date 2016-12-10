@@ -1,2 +1,50 @@
 <#include "../public/header.html"/>
+<!-- group list -->
+<div class="collapse">
+    <#list producerStats as item>
+	<div class="panel ${(item_index==0)?string('active','')}">
+		<div class="panel-head">
+			<span>${item.name}</span>&nbsp;
+		</div>
+		<div class="panel-body">
+			<table class="table table-bordered">
+				<tr>
+					<th width="150">topic</th>
+					<th width="100">suc(total)</th>
+					<th width="100">error(total)</th>
+					<th width="100">suc(latest)</th>
+					<th width="100">error(latest)</th>
+					<th width="*">source</th>
+					<th width="100">lastTime</th>
+				</tr>
+			</table>
+			<#list item.producerTopics as topic>
+			<table class="table table-bordered">
+			<#list topic.producerStats as stat>
+				<tr>
+					<#if stat_index==0>
+					<td rowspan="6" width="150">${topic.topic}</td>
+					</#if>
+					<td width="100">${stat.successNums?c}</td>
+					<td width="100"><span class="text-red">${stat.errorNums?c}</span></td>
+					<td width="100">${stat.latestSuccessNums}</td>
+					<td width="100"><span class="text-red">${stat.latestErrorNums}</span></td>
+					<td width="*" title="${stat.source!}">
+					<#if stat.source??><#if stat.source?length gt 50>${stat.source?substring(0,50)}...<#else>${stat.source!}</#if></#if>
+					</td>
+					<td width="120">${stat.formatLastTime!}</td>
+				</tr>
+				</#list>
+			</table>
+			</#list>
+		</div>
+	</div>
+	</#list>
+</div>
+<script type="text/javascript">
+setTimeout(function(){
+	window.location.reload();
+},5000); 
+</script>
+<!-- group list -->
 <#include "../public/footer.html"/>
